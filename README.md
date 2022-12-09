@@ -164,7 +164,9 @@ An alternative would be to clone this repo and run the install.sh script.
 Like:
 
 cd /home/pi
+
 git clone https://github.com/voland696/offset_calibration.git
+
 ./offset_calibration/install.sh
 
 It's safe to execute the install script multiple times.
@@ -173,10 +175,15 @@ It's safe to execute the install script multiple times.
 It's possible to keep this extension up to date with the Moonraker's update manager by adding this configuration block to the "moonraker.conf" of your printer:
 
 [update_manager client offset_calibration]
+
 type: git_repo
+
 path: ~/offset_calibration
+
 origin: https://github.com/voland696/offset_calibration.git
+
 install_script: install.sh
+
 managed_services: klipper
 
 This requires this repository to be cloned into your home directory (e.g. /home/pi):
