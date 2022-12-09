@@ -18,24 +18,24 @@ check_klipper()
 link_extension()
 {
     echo "Linking extension to Klipper..."
-    ln -sf "${SRCDIR}/z_calibration.py" "${KLIPPER_PATH}/klippy/extras/z_calibration.py"
+    ln -sf "${SRCDIR}/offset_calibration.py" "${KLIPPER_PATH}/klippy/extras/offset_calibration.py"
 }
 
 # Step 3: Remove old dummy system service
 remove_service()
 {
-    SERVICE_FILE="${SYSTEMDDIR}/z_calibration.service"
+    SERVICE_FILE="${SYSTEMDDIR}/offset_calibration.service"
     if [ -f $SERVICE_FILE ]; then
         echo -e "Removing system service..."
-        sudo service z_calibration stop
-        sudo systemctl disable z_calibration.service
+        sudo service offset_calibration stop
+        sudo systemctl disable offset_calibration.service
         sudo rm "$SERVICE_FILE"
     fi
-    OLD_SERVICE_FILE="${SYSTEMDDIR}/klipper_z_calibration.service"
+    OLD_SERVICE_FILE="${SYSTEMDDIR}/klipper_offset_calibration.service"
     if [ -f $OLD_SERVICE_FILE ]; then
         echo -e "Removing old system service..."
-        sudo service klipper_z_calibration stop
-        sudo systemctl disable klipper_z_calibration.service
+        sudo service klipper_offset_calibration stop
+        sudo systemctl disable klipper_offset_calibration.service
         sudo rm "$OLD_SERVICE_FILE"
     fi
 }
