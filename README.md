@@ -25,49 +25,9 @@ And, if you love my work and would like to support me, please feel free to do th
 
 # Changes
 
-- **v0.9.2** (2022-07-08)
-  - The probe is now docked again before raising an error, if end_gcode is used (thanks to top-gun)
-  - Probings are more consistent now as the probing sequence is also applied for the bed probing
-  - More secure: the check for an attached probe is now after the movement to the probing site
-- **v0.9.1** (2022-04-06)
-  - The dummy system service for Moonraker's update manager is removed :tada:
-  - **:exclamation:Please update this plugin and Moonraker, adapt your moonraker.conf and execute
-    the install.sh script again!**
-- **v0.9.0** (2022-04-05)
-  - **CAUTION:** The X and Y position configurations are now merged to a combined X,Y parameter,
-  - **:exclamation:Please update your Configuration!**
-  - The CALIBRATE_Z command has an optional parameter for the probing position on the bed
-  - The restriction for a relative reference index in the "bed_mesh" section is removed
-  - Some other small changes from the failed Klipper PR are merged back now
-  - Example configurations are removed because they were just examples and confused many people
-- **v0.8.1** (2022-02-21)
-  - Now, the relative reference index (RRI) of the bed mesh is read every time the calibration
-    starts. So, feel free to use any adaptive mesh macro :tada:
-  - Checks for homed axes and attached probe just before using it
-  - A new Z-Tilt macro in the examples
-  - Improvements of the documentation for installation, configuration and switch_offset
-- **v0.8.0** (2021-08-09)
-  - New configurations for executing G-Code commands (useful for V1 users)
-  - Bugfix for configuring the z_calibration too early (many thanks to Frix-x),
-  - New example configurations
-  - **Action needed** for the Moonraker update, see: [Moonraker Update Manager](#moonraker-update-manager)
-- **v0.7.0** (2021-06-23)
-  - New "PROBE_Z_ACCURACY" command
-  - Renaming of the dummy service (**CAUTION**: the configuration needs to be adapted for this!)
-  - Fix in "_SET_ACC" Macro
-- **v0.6.2** (2021-06-01)
-  - As desired, added Moonraker Update possibility.
-- **v0.5** (2021-05-30)
-  - Added compatibility for newer Klipper versions.
-- **v0.4** (2021-05-17)
-  - The "calibrate_z:probe_bed_x|y" settings can be omitted in the configuration and the
-  "mesh:relative_reference_index" of the bed mesh is taken as default instead.
-- **v0.3** (2021-05-13)
-  - A new option to first probe down fast before recording the probing samples is added.
-  - And all indirect properties from other sections can be customized now.
-- **v0.2** (2021-05-12)
-  - The probing repeatability is now increased dramatically by using the probing
-    procedure instead of the homing procedure!
+- **v0.0.1-alpha** (2022-07-08)
+  - First try
+
 
 # Table of Content
 
@@ -194,55 +154,32 @@ expansion of the printer frame after starting a print. It is from alchemyEngine 
 can be found
 [here](https://github.com/alchemyEngine/klipper_frame_expansion_comp).
 
-## How To Install It
+### How To Install It
+To install this plugin, you need to copy the offset_calibration.py file into the extras folder of klipper. Like:
 
-To install this plugin, you need to copy the `z_calibration.py` file into the `extras`
-folder of klipper. Like:
+/home/pi/klipper/klippy/extras/offset_calibration.py
+An alternative would be to clone this repo and run the install.sh script. Like:
 
-```bash
-/home/pi/klipper/klippy/extras/z_calibration.py
-```
-
-An alternative would be to clone this repo and run the `install.sh` script. Like:
-
-```bash
 cd /home/pi
-git clone https://github.com/protoloft/klipper_z_calibration.git
-./klipper_z_calibration/install.sh
-```
-
+git clone https://github.com/voland696/offset_calibration.git
+./offset_calibration/install.sh
 It's safe to execute the install script multiple times.
 
-More on this in the [Moonraker Update Manager](#moonraker-update-manager) section.
 
 ### Moonraker Update Manager
+It's possible to keep this extension up to date with the Moonraker's update manager by adding this configuration block to the "moonraker.conf" of your printer:
 
->:bulb: **NEW:** With a current Moonraker version, the dummy service is not
-> necessary anymore. If you have updated to the 0.9.1 version, you need to adapt the
-> following configuration block in your "moonraker.conf" file. The old dummy service
-> can be removed by executing the install script again. Like:
-> `/home/pi/klipper_z_calibration/install.sh`
-
-It's possible to keep this extension up to date with the Moonraker's update manager by
-adding this configuration block to the "moonraker.conf" of your printer:
-
-```text
-[update_manager client z_calibration]
+[update_manager client offset_calibration]
 type: git_repo
-path: ~/klipper_z_calibration
-origin: https://github.com/protoloft/klipper_z_calibration.git
+path: ~/offset_calibration
+origin: https://github.com/voland696/offset_calibration.git
 install_script: install.sh
 managed_services: klipper
-```
 
 This requires this repository to be cloned into your home directory (e.g. /home/pi):
 
-```bash
-git clone https://github.com/protoloft/klipper_z_calibration.git
-```
-
-The install script assumes that Klipper is also installed in your home directory under
-"klipper": `${HOME}/klipper`.
+git clone https://github.com/voland/offset_calibration.git
+The install script assumes that Klipper is also installed in your home directory under "klipper": ${HOME}/klipper.
 
 >:point_up: **NOTE:** If your Moonraker is not on a recent version, you may get an error
 > with the "managed_services" line!
@@ -370,25 +307,6 @@ end_gcode:
 >bed, since the script just calls the probe to do it's job at this point. Only the first fast down
 >probing is covered by this script directly.
 
-### Bed Mesh
-
->:bulb: **NEW:** Adaptive mesh macros can be used now by redefining the RRI of the mesh and/or by
-> using the new "BED_POSITION" parameter of the "CALIBRATE_Z" command.
-
-If you use a bed mesh, it is advised to configure it with a relative reference index
-("bed_mesh:relative_reference_index" setting). But this is not enforced anymore. With a configured
-relative reference, the position at this index will become the Z=0 point of the mesh. So, it's
-good to calibrate Z at this point. If the configuration lacks a "bed_xy_position", then the
-relative reference index will be read every time the calibration is started. Thereby it's
-possible to change this index by a macro at runtime.
-
-This is used by adaptive mesh macros. They create a smaller mesh which is only on the area used
-by the starting print. One example would be the macros from Frix-x which can be found
-[here](https://github.com/Frix-x/klipper-voron-V2).
-
->:point_up: **NOTE:** Be careful with adaptive mesh macros because they use Klipper's mesh function
->in an unsupported way! It's important to calibrate Z correctly for the created mesh!
-
 ### Switch Offset
 
 The "z_calibration:switch_offset" is the already mentioned offset from the switch body
@@ -408,26 +326,6 @@ And the calculation of the offset base:
 offset base = OP (Operation Position) - switch body height
      0.5 mm = 5.5 mm - 5 mm
 ```
-
-#### How About A Negative Switch Offset?
-
-First of all, there cannot be a negative switch_offset! If the switch_offset is already
-really small after tuning it and the nozzle is still too close to the bed, then there is
-something wrong measuring the probe's body. The following image illustrates this context:
-
-![switch offset](pictures/negative-switch-offset.png)
-
-So, please check your endstop, the rod of the endstop and the position touching the body
-of the probe's switch!
-
-> **:exclamation: Please, do NOT drive the endstop pin on the switch's actuator directly!
-> Otherwise, you do it on your own risk and I will reject any request for support!**
-
-If you do so, a correct or at least a working measured hight at the switch is all up to the
-different forces in this system. But forces can change due to many reasons. The best case
-would be that the actuator is pushed all the way in until the pin touches the body of the
-switch - before the endstop is triggered! But it can also be anything in between...
-So, there is no reason to not touch the body directly in a safe and robust way :thumbsup:
 
 ## How To Test It
 
