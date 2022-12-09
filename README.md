@@ -155,14 +155,18 @@ can be found
 [here](https://github.com/alchemyEngine/klipper_frame_expansion_comp).
 
 ### How To Install It
-To install this plugin, you need to copy the offset_calibration.py file into the extras folder of klipper. Like:
+To install this plugin, you need to copy the offset_calibration.py file into the extras folder of klipper. 
+Like:
 
 /home/pi/klipper/klippy/extras/offset_calibration.py
-An alternative would be to clone this repo and run the install.sh script. Like:
+
+An alternative would be to clone this repo and run the install.sh script. 
+Like:
 
 cd /home/pi
 git clone https://github.com/voland696/offset_calibration.git
 ./offset_calibration/install.sh
+
 It's safe to execute the install script multiple times.
 
 
