@@ -72,5 +72,5 @@ done
 # Run steps
 verify_ready
 link_extension
-remove_service
+#remove_service
 restart_klipper
