@@ -169,7 +169,6 @@ git clone https://github.com/voland696/offset_calibration.git
 
 It's safe to execute the install script multiple times.
 
-
 ### Moonraker Update Manager
 It's possible to keep this extension up to date with the Moonraker's update manager by adding this configuration block to the "moonraker.conf" of your printer:
 
