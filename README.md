@@ -156,7 +156,7 @@ can be found
 
 ### How To Install It
 To install this plugin, you need to copy the offset_calibration.py file into the extras folder of klipper. 
-Like:
+Like: 
 
 /home/pi/klipper/klippy/extras/offset_calibration.py
 
