@@ -21,24 +21,24 @@ link_extension()
     ln -sf "${SRCDIR}/offset_calibration.py" "${KLIPPER_PATH}/klippy/extras/offset_calibration.py"
 }
 
-# Step 3: Remove old dummy system service
-remove_service()
-{
-    SERVICE_FILE="${SYSTEMDDIR}/offset_calibration.service"
-    if [ -f $SERVICE_FILE ]; then
-        echo -e "Removing system service..."
-        sudo service offset_calibration stop
-        sudo systemctl disable offset_calibration.service
-        sudo rm "$SERVICE_FILE"
-    fi
-    OLD_SERVICE_FILE="${SYSTEMDDIR}/klipper_offset_calibration.service"
-    if [ -f $OLD_SERVICE_FILE ]; then
-        echo -e "Removing old system service..."
-        sudo service klipper_offset_calibration stop
-        sudo systemctl disable klipper_offset_calibration.service
-        sudo rm "$OLD_SERVICE_FILE"
-    fi
-}
+## Step 3: Remove old dummy system service
+#remove_service()
+#{
+#    SERVICE_FILE="${SYSTEMDDIR}/offset_calibration.service"
+#    if [ -f $SERVICE_FILE ]; then
+#        echo -e "Removing system service..."
+#        sudo service offset_calibration stop
+#        sudo systemctl disable offset_calibration.service
+#        sudo rm "$SERVICE_FILE"
+#    fi
+#    OLD_SERVICE_FILE="${SYSTEMDDIR}/klipper_offset_calibration.service"
+#    if [ -f $OLD_SERVICE_FILE ]; then
+#        echo -e "Removing old system service..."
+#        sudo service klipper_offset_calibration stop
+#        sudo systemctl disable klipper_offset_calibration.service
+#        sudo rm "$OLD_SERVICE_FILE"
+#    fi
+#}
 
 # Step 4: restarting Klipper
 restart_klipper()
